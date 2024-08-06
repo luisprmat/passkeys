@@ -1,6 +1,9 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2
+            id="managePasskeys"
+            class="text-lg font-medium text-gray-900 dark:text-gray-100"
+        >
             {{ __('Manage Passkeys') }}
         </h2>
 
@@ -52,11 +55,13 @@
                         </span>
                     </div>
 
-                    <form method="post" action="/">
+                    <form
+                        method="post"
+                        action="{{ route('passkeys.destroy', $passkey) }}"
+                    >
                         @csrf
                         @method('DELETE')
 
-                        <input type="hidden" name="id" value="" />
                         <x-danger-button>
                             {{ __('Remove') }}
                         </x-danger-button>
