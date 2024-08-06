@@ -21,6 +21,14 @@
                 class="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800"
             >
                 <div class="max-w-xl">
+                    @include('profile.partials.manage-passkeys')
+                </div>
+            </div>
+
+            <div
+                class="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800"
+            >
+                <div class="max-w-xl">
                     @include('profile.partials.update-password-form')
                 </div>
             </div>
