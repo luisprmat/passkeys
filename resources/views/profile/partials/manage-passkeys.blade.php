@@ -14,6 +14,7 @@
 
     <form
         x-data="registerPasskey"
+        x-show="browserSupportsWebAuthn()"
         x-on:submit.prevent="register($el)"
         name="createPasskey"
         method="post"
