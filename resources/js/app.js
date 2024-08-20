@@ -21,7 +21,7 @@ document.addEventListener('alpine:init', () => {
 
             this.errors = null
 
-            if (!this.browserSupportsWebAuthn) {
+            if (!this.browserSupportsWebAuthn()) {
                 return
             }
 
@@ -35,8 +35,10 @@ document.addEventListener('alpine:init', () => {
                 return
             }
 
+            let passkey
+
             try {
-                const passkey = await startRegistration(options.data)
+                passkey = await startRegistration(options.data)
             } catch (e) {
                 this.errors = { name: [passkeyFailed[locale]] }
                 return

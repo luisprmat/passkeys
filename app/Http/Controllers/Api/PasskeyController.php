@@ -39,7 +39,7 @@ class PasskeyController extends Controller
 
     public function authenticateOptions(Request $request)
     {
-        $allowCredentials = $request->filled('email')
+        $allowedCredentials = $request->query('email')
             ? Passkey::whereRelation('user', 'email', $request->email)
                 ->get()
                 ->map(fn (Passkey $passkey) => $passkey->data)
@@ -50,7 +50,7 @@ class PasskeyController extends Controller
         $options = new PublicKeyCredentialRequestOptions(
             challenge: Str::random(),
             rpId: parse_url(config('app.url'), PHP_URL_HOST),
-            allowCredentials: $allowCredentials,
+            allowCredentials: $allowedCredentials,
         );
 
         Session::flash('passkey-authentication-options', $options);
