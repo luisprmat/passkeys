@@ -5,6 +5,7 @@
     <form
         x-data="authenticatePasskey"
         x-init="authenticate($el)"
+        x-on:submit.prevent="authenticate($el, true)"
         method="POST"
         action="{{ route('login') }}"
     >
@@ -14,6 +15,7 @@
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input
+                x-model="email"
                 id="email"
                 class="mt-1 block w-full"
                 type="email"
@@ -21,27 +23,32 @@
                 :value="old('email')"
                 required
                 autofocus
-                autocomplete="username"
+                autocomplete="username webauthn"
             />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <x-input-error :messages="$errors->get('answer')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <template x-if="showPasswordField">
+            <div class="mt-4">
+                <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input
-                id="password"
-                class="mt-1 block w-full"
-                type="password"
-                name="password"
-                required
-                autocomplete="current-password"
-            />
+                <x-text-input
+                    id="password"
+                    class="mt-1 block w-full"
+                    type="password"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                <x-input-error
+                    :messages="$errors->get('password')"
+                    class="mt-2"
+                />
+            </div>
+        </template>
 
         <!-- Remember Me -->
         <div class="mt-4 block">
@@ -61,6 +68,7 @@
         <div class="mt-4 flex items-center justify-end">
             @if (Route::has('password.request'))
                 <a
+                    x-show="showPasswordField"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                     href="{{ route('password.request') }}"
                 >

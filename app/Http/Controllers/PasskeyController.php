@@ -52,6 +52,8 @@ class PasskeyController extends Controller
             ]);
         }
 
+        $passkey->update(['data' => $publicKeyCredentialSource]);
+
         Auth::loginUsingId($passkey->user_id);
 
         $request->session()->regenerate();
@@ -93,7 +95,6 @@ class PasskeyController extends Controller
 
         $request->user()->passkeys()->create([
             'name' => $data['name'],
-            'credential_id' => $publicKeyCredentialSource->publicKeyCredentialId,
             'data' => $publicKeyCredentialSource,
         ]);
 
