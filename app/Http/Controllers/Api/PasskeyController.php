@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Passkey;
+use App\Support\JsonSerializer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -34,7 +35,7 @@ class PasskeyController extends Controller
 
         Session::flash('passkey-registration-options', $options);
 
-        return $options;
+        return JsonSerializer::serialize($options);
     }
 
     public function authenticateOptions(Request $request)
@@ -55,6 +56,6 @@ class PasskeyController extends Controller
 
         Session::flash('passkey-authentication-options', $options);
 
-        return $options;
+        return JsonSerializer::serialize($options);
     }
 }
